@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Beat the Close Track Record</title>
+<meta name="description" content="Every free and VIP pick of Beat the Close with result and closing line value (CLV) against Pinnacle.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: one column – brand bar, headline numbers, filter, full ledger table (scrolls sideways on phones). Deliberately single dark theme, matching the Instagram brand. */
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+:root{
+  --bg:#0E1116; --card:#161B23; --line:#2A313D; --row:#1F2530;
+  --fg:#F2F4F7; --soft:#C9D0DB; --muted:#9AA4B5; --accent:#F5B83D;
+  --win:#8BDB9C; --loss:#F49A8E; --push:#C9D0DB;
+  --display:'Archivo',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:dark;
+}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--display);font-size:15px;line-height:1.45}
+[hidden]{display:none!important}
+.wrap{max-width:1080px;margin:0 auto;padding-block:32px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:28px}
+.brand{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.logo{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.08em;font-size:20px}
+.handle{font-family:var(--mono);font-size:14px;color:var(--muted)}
+h1{margin:0;font-size:clamp(34px,6vw,56px);font-weight:900;line-height:1.04;text-wrap:balance}
+.lede{margin:0;color:var(--soft);font-size:17px;max-width:62ch}
+.meta{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.stat .k{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.stat .v{font-family:var(--mono);font-size:30px;font-weight:600;font-variant-numeric:tabular-nums}
+.stat.hero .v{color:var(--accent)}
+.stat .v.rec{font-size:20px;line-height:1.3;padding-top:6px;white-space:pre-line}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filters button{font:inherit;font-family:var(--mono);font-size:13px;letter-spacing:.04em;padding:9px 14px;min-height:40px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--soft);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:600}
+.filters button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tablebox{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+table{width:100%;border-collapse:collapse;min-width:920px;font-variant-numeric:tabular-nums}
+th{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;font-weight:500;padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid var(--row);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.num{font-family:var(--mono);white-space:nowrap}
+td.pick{font-weight:600}
+td .sub{display:block;font-weight:400;color:var(--muted);font-size:13px}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:3px 8px;border-radius:999px;border:1px solid var(--line);color:var(--soft);white-space:nowrap}
+.tag.free{border-color:var(--accent);color:var(--accent)}
+.res{font-family:var(--mono);font-weight:600;white-space:nowrap}
+.res.won{color:var(--win)} .res.lost{color:var(--loss)} .res.push,.res.void{color:var(--push)} .res.open{color:var(--accent)}
+tr.open td{background:rgba(245,184,61,.06)}
+.pos{color:var(--win)} .neg{color:var(--loss)}
+.empty{padding:36px 18px;text-align:center;color:var(--soft)}
+.empty strong{display:block;color:var(--fg);font-size:18px;margin-bottom:6px}
+.notes{display:flex;flex-direction:column;gap:6px;color:var(--muted);font-size:13px;max-width:75ch}
+.notes p{margin:0}
+footer{border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:13px}
+@media (max-width:640px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat .v{font-size:24px}.stat .v.rec{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">
+    <div class="logo">
+      <svg width="30" height="30" viewBox="0 0 44 44" fill="none" aria-hidden="true"><polyline points="4,32 14,22 22,28 32,12 40,16" stroke="#F5B83D" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="4" y1="40" x2="40" y2="40" stroke="#3A4250" stroke-width="2"/></svg>
+      BEAT THE CLOSE
+    </div>
+    <span class="handle">@beattheclose.bets</span>
+  </div>
+
+  <header style="display:flex;flex-direction:column;gap:12px">
+    <h1>Every bet. Every result. Every CLV.</h1>
+    <p class="lede">The complete record since 28 Oct 2026 – every free pick and every VIP pick, taken straight from our Telegram channels. Free picks show up the moment they are posted, VIP picks once the game is over. Nothing is deleted. Every bet is measured against Pinnacle's closing price.</p>
+    <span class="meta" id="updated">Updated –</span>
+  </header>
+
+  <section class="stats" aria-label="Summary">
+    <div class="stat hero"><span class="k">Avg CLV</span><span class="v" id="s-clv">–</span></div>
+    <div class="stat"><span class="k">Beat the close</span><span class="v" id="s-beat">–</span></div>
+    <div class="stat"><span class="k">Bets</span><span class="v" id="s-n">–</span></div>
+    <div class="stat"><span class="k">Won – Lost – Push/Void</span><span class="v" id="s-rec">–</span></div>
+    <div class="stat"><span class="k">Profit</span><span class="v" id="s-pl">–</span></div>
+    <div class="stat"><span class="k">ROI</span><span class="v" id="s-roi">–</span></div>
+  </section>
+
+  <div class="filters" role="group" aria-label="Filter">
+    <button type="button" id="f-all" data-f="all" aria-pressed="true">All bets</button>
+    <button type="button" id="f-free" data-f="free" aria-pressed="false">Free picks</button>
+    <button type="button" id="f-vip" data-f="vip" aria-pressed="false">VIP picks</button>
+  </div>
+
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>Date</th><th>Type</th><th>Match</th><th>Pick</th><th>Odds</th><th>Stake</th><th>Closing fair</th><th>CLV</th><th>Result</th><th>Profit</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="empty" id="empty"><strong>The record starts today.</strong>The first settled bets appear here the morning after the game.</div>
+  </div>
+
+  <div class="notes">
+    <p>CLV = our odds ÷ Pinnacle's no-vig closing price − 1. Every settled bet carries a CLV. "≈" marks the rare case where Pinnacle offered no market on that exact line and the closing consensus of major US books was used instead. Voided bets have no CLV.</p>
+    <p>Open free picks are shown with their result "OPEN" and do not count in the numbers above until they are settled. Odds are the price posted in our Telegram channel. Stakes are in units as posted (1u = 1 % of bankroll). A win pays stake × (odds − 1), a loss costs the stake, pushes and voids pay 0. ROI = profit ÷ total staked.</p>
+  </div>
+
+  <footer>18+ · No guaranteed profits. Gambling can be addictive. Help: begambleaware.org · check-dein-spiel.de</footer>
+</div>
+
+<script id="btc-data" type="application/json">{"updated": "31 Oct 2026, 11:34 CET", "bets": [{"date": "2026-10-29", "type": "free", "sport": "NBA", "match": "Indiana Pacers vs Philadelphia 76ers", "pick": "Tyrese Haliburton – Under 2.5 Threes", "stat": "Ruled out before tip-off – void", "odds": 2.01, "stake": 1, "result": "void", "profit": 0}, {"date": "2026-10-29", "type": "free", "sport": "NBA", "match": "Minnesota Timberwolves vs Golden State Warriors", "pick": "LaMelo Ball – Over 4.5 Rebounds", "odds": 2.06, "stake": 1.0, "stat": "Final: 4 rebounds", "close_fair": 1.823, "clv": 13.0, "clv_proxy": false, "result": "lost", "profit": -1.0}, {"date": "2026-10-29", "type": "vip", "sport": "NBA", "match": "Atlanta Hawks vs Miami Heat", "pick": "Bam Adebayo – Under 9.5 Rebounds", "odds": 1.84, "stake": 1.0, "stat": "Final: 9 rebounds", "close_fair": 1.65, "clv": 11.2, "clv_proxy": false, "result": "won", "profit": 0.84}, {"date": "2026-10-29", "type": "vip", "sport": "NBA", "match": "Cleveland Cavaliers vs Washington Wizards", "pick": "Evan Mobley – Under 3.5 Assists", "odds": 2.17, "stake": 1.0, "stat": "Final: 2 assists", "close_fair": 2.02, "clv": 7.5, "clv_proxy": false, "result": "won", "profit": 1.17}, {"date": "2026-10-29", "type": "vip", "sport": "NBA", "match": "Cleveland Cavaliers vs Washington Wizards", "pick": "James Harden – Over 4.5 Rebounds", "odds": 2.04, "stake": 1.0, "stat": "Final: 2 rebounds", "close_fair": 1.9, "clv": 7.2, "clv_proxy": false, "result": "lost", "profit": -1.0}, {"date": "2026-10-29", "type": "vip", "sport": "NBA", "match": "Indiana Pacers vs Philadelphia 76ers", "pick": "Pascal Siakam – Over 3.5 Assists", "odds": 1.98, "stake": 1.0, "stat": "Final: 3 assists", "close_fair": 1.86, "clv": 6.3, "clv_proxy": false, "result": "lost", "profit": -1.0}, {"date": "2026-10-29", "type": "vip", "sport": "NBA", "match": "Los Angeles Clippers vs Los Angeles Lakers", "pick": "Kris Dunn – Under 5.5 Assists", "odds": 1.76, "stake": 2.0, "stat": "Final: 3 assists", "close_fair": 1.56, "clv": 12.8, "clv_proxy": false, "result": "won", "profit": 1.52}, {"date": "2026-10-29", "type": "vip", "sport": "NBA", "match": "New Orleans Pelicans vs Denver Nuggets", "pick": "Aaron Gordon – Over 5.5 Rebounds", "odds": 2.01, "stake": 1.0, "stat": "Final: 11 rebounds", "close_fair": 1.982, "clv": 1.4, "clv_proxy": false, "result": "won", "profit": 1.01}, {"date": "2026-10-29", "type": "vip", "sport": "NBA", "match": "New Orleans Pelicans vs Denver Nuggets", "pick": "Christian Braun – Over 4.5 Rebounds", "odds": 2.16, "stake": 1.0, "stat": "Final: 0 rebounds", "close_fair": 1.799, "clv": 20.1, "clv_proxy": false, "result": "lost", "profit": -1.0}, {"date": "2026-10-29", "type": "vip", "sport": "NBA", "match": "New Orleans Pelicans vs Denver Nuggets", "pick": "Trey Murphy III – Over 4.5 Rebounds", "odds": 2.19, "stake": 1.0, "stat": "Final: 1 rebound", "close_fair": 1.863, "clv": 17.6, "clv_proxy": false, "result": "lost", "profit": -1.0}, {"date": "2026-10-29", "type": "vip", "sport": "NBA", "match": "Toronto Raptors vs Orlando Magic", "pick": "Desmond Bane – Over 4.5 Rebounds", "odds": 2.07, "stake": 1.0, "stat": "Final: 5 rebounds", "close_fair": 1.99, "clv": 4.0, "clv_proxy": false, "result": "won", "profit": 1.07}, {"date": "2026-10-29", "type": "vip", "sport": "NBA", "match": "Toronto Raptors vs Orlando Magic", "pick": "Scottie Barnes – Over 7.5 Rebounds", "odds": 2.0, "stake": 1.0, "stat": "Final: 6 rebounds", "close_fair": 2.12, "clv": -5.6, "clv_proxy": false, "result": "lost", "profit": -1.0}, {"date": "2026-10-30", "type": "free", "sport": "NBA", "match": "Atlanta Hawks vs Cleveland Cavaliers", "pick": "Peyton Watson – Over 4.5 Rebounds", "odds": 1.94, "stake": 1.0, "stat": "Final: 4 rebounds", "close_fair": 2.0, "clv": -3.0, "clv_proxy": false, "result": "lost", "profit": -1.0}, {"date": "2026-10-30", "type": "vip", "sport": "NBA", "match": "Atlanta Hawks vs Cleveland Cavaliers", "pick": "Donovan Mitchell – Over 2.5 Threes", "odds": 2.37, "stake": 1.5, "stat": "Final: 1 three made", "close_fair": 2.08, "clv": 13.9, "clv_proxy": false, "result": "lost", "profit": -1.5}, {"date": "2026-10-31", "type": "free", "sport": "NBA", "match": "Dallas Mavericks vs Houston Rockets", "pick": "Cooper Flagg – Under 1.5 Threes", "odds": 1.91, "stake": 1.0, "stat": "Final: 0 threes made", "close_fair": 1.733, "clv": 10.2, "clv_proxy": false, "result": "won", "profit": 0.91}, {"date": "2026-10-31", "type": "vip", "sport": "NBA", "match": "Miami Heat vs Indiana Pacers", "pick": "Aaron Nesmith – Under 2.5 Threes", "odds": 1.59, "stake": 2.0, "stat": "Final: 1 three made", "close_fair": 1.491, "clv": 6.7, "clv_proxy": false, "result": "won", "profit": 1.18}, {"date": "2026-10-31", "type": "vip", "sport": "NBA", "match": "Miami Heat vs Indiana Pacers", "pick": "Obi Toppin – Under 5.5 Rebounds", "odds": 1.93, "stake": 2.0, "stat": "Did not play (back spasms) – void", "result": "void", "profit": 0}, {"date": "2026-10-31", "type": "vip", "sport": "NBA", "match": "Minnesota Timberwolves vs Los Angeles Clippers", "pick": "Ayo Dosunmu – Under 4.5 Assists", "odds": 1.81, "stake": 1.0, "stat": "Final: 2 assists", "close_fair": 1.684, "clv": 7.5, "clv_proxy": false, "result": "won", "profit": 0.81}, {"date": "2026-10-31", "type": "vip", "sport": "NBA", "match": "Minnesota Timberwolves vs Los Angeles Clippers", "pick": "Darius Garland – Under 7.5 Assists", "odds": 1.93, "stake": 1.0, "stat": "Final: 5 assists", "close_fair": 1.813, "clv": 6.5, "clv_proxy": false, "result": "won", "profit": 0.93}, {"date": "2026-10-31", "type": "vip", "sport": "NBA", "match": "Phoenix Suns vs Denver Nuggets", "pick": "Cameron Johnson – Under 11.5 Points", "odds": 1.93, "stake": 1.0, "stat": "Final: 12 points", "close_fair": 1.701, "clv": 13.4, "clv_proxy": false, "result": "lost", "profit": -1.0}, {"date": "2026-10-31", "type": "vip", "sport": "NBA", "match": "Toronto Raptors vs Orlando Magic", "pick": "Ja'Kobe Walter – Over 2.5 Threes", "odds": 2.29, "stake": 1.0, "stat": "Final: 3 threes made", "close_fair": 2.169, "clv": 5.6, "clv_proxy": false, "result": "won", "profit": 1.29}]}</script>
+<script>
+(function(){
+  var data; try{ data = JSON.parse(document.getElementById('btc-data').textContent); }catch(e){ data = {updated:'',bets:[]}; }
+  var bets = (data.bets||[]).slice().sort(function(a,b){ return (b.date||'').localeCompare(a.date||''); });
+  var filter = 'all';
+  var $ = function(id){ return document.getElementById(id); };
+  function f2(n){ return (Math.round(n*100)/100).toFixed(2); }
+  function pct(n){ return (n>0?'+':'')+(Math.round(n*10)/10).toFixed(1)+'%'; }
+  function u(n){ return (Math.round(n*100)/100).toString()+'u'; }
+  function fmtDate(s){ if(!s) return ''; var p=s.split('-'); var m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return (+p[2])+' '+m[+p[1]-1]+' '+p[0]; }
+  if (data.updated) $('updated').textContent = 'Updated ' + data.updated;
+
+  function render(){
+    var list = bets.filter(function(b){ return filter==='all' || b.type===filter; });
+    var tb = $('rows'); tb.textContent='';
+    $('empty').hidden = list.length>0;
+    var w=0,l=0,p=0,pl=0,staked=0,clvs=[],beat=0,settled=0;
+    list.forEach(function(b){
+      var o=b.result; var isOpen = o==='open';
+      if(o==='won') w++; else if(o==='lost') l++; else if(!isOpen) p++;
+      var st = typeof b.stake==='number' ? b.stake : 1;
+      pl += (typeof b.profit==='number') ? b.profit : 0;
+      if (o==='won' || o==='lost') staked += st;
+      if (typeof b.clv==='number' && o!=='void' && !isOpen){ clvs.push(b.clv); if (b.clv>0) beat++; }
+      if (!isOpen) settled++;
+      var tr=document.createElement('tr'); if (isOpen) tr.className='open';
+      function td(txt,cls){ var c=document.createElement('td'); if(cls) c.className=cls; c.textContent=txt; tr.appendChild(c); return c; }
+      td(fmtDate(b.date),'num');
+      var t=document.createElement('td'); var s=document.createElement('span'); s.className='tag'+(b.type==='free'?' free':''); s.textContent=b.type==='free'?'FREE':'VIP'; t.appendChild(s); tr.appendChild(t);
+      var m=td(b.match||''); if(b.sport){ var sp=document.createElement('span'); sp.className='sub'; sp.textContent=b.sport; m.appendChild(sp); }
+      var pk=td(b.pick||'','pick'); if(b.stat){ var stt=document.createElement('span'); stt.className='sub'; stt.textContent=b.stat; pk.appendChild(stt); }
+      td(typeof b.odds==='number'?f2(b.odds):'','num');
+      td(u(st),'num');
+      td(o==='void'||isOpen?'–':(typeof b.close_fair==='number'?f2(b.close_fair):'–'),'num');
+      var cv = isOpen ? 'pending' : o==='void' ? 'void' : (typeof b.clv==='number' ? ((b.clv_proxy?'≈':'')+pct(b.clv)) : 'pending');
+      td(cv,'num'+(typeof b.clv==='number'&&o!=='void'?(b.clv>0?' pos':(b.clv<0?' neg':'')):''));
+      td(isOpen?(b.kickoff_label?'OPEN · '+b.kickoff_label:'OPEN'):(o||'').toUpperCase(),'res '+(o||''));
+      td(typeof b.profit==='number'?((b.profit>0?'+':'')+f2(b.profit)+'u'):'','num'+(b.profit>0?' pos':(b.profit<0?' neg':'')));
+      tb.appendChild(tr);
+    });
+    var n=settled;
+    $('s-n').textContent = n;
+    $('s-rec').textContent = n ? (w+'–'+l+'–'+p) : '–';
+    $('s-pl').textContent = n ? ((pl>0?'+':'')+f2(pl)+'u') : '–';
+    $('s-roi').textContent = staked ? pct(pl/staked*100) : '–';
+    $('s-clv').textContent = clvs.length ? pct(clvs.reduce(function(a,b){return a+b;},0)/clvs.length) : '–';
+    $('s-beat').textContent = clvs.length ? Math.round(beat/clvs.length*100)+'%' : '–';
+  }
+  document.querySelectorAll('.filters button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      filter = btn.getAttribute('data-f');
+      document.querySelectorAll('.filters button').forEach(function(x){ x.setAttribute('aria-pressed', x===btn?'true':'false'); });
+      render();
+    });
+  });
+  render();
+})();
+</script>
+</body></html>
